@@ -8,5 +8,6 @@
 .coveralls.yml
 
 # Emacs
+*~
 *.*~
 scripts/*.*~
