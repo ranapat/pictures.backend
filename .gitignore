@@ -1,9 +1,7 @@
-/lib/
+/bin/
 /node_modules/
 /npm-debug.log
 /coverage/
-/standalone/
-/examples/bin/
 
 .coveralls.yml
 
