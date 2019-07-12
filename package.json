@@ -12,6 +12,7 @@
     "david-check": "david || true",
     "serve": "babel -w src -d bin | nodemon --watch bin",
     "compile": "babel src -d bin",
+    "compileAndRun": "babel src -d bin > /dev/null 2>&1 && ./app",
     "prepublishOnly": "babel src -d bin"
   },
   "author": "ranapat <github@ranapat.org>",
