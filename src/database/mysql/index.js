@@ -1,5 +1,11 @@
 import mysql from 'mysql';
 
+import { addPicture } from './addPicture';
+
+const commands = {
+  'addPicture': addPicture
+};
+
 let connection;
 let connected = false;
 
@@ -36,20 +42,11 @@ const isConnected = () => {
   return connected;
 };
 
-const addPicture = (path, name, modifiedAt) => {
-  connection.query(
-    'insert into files (path, name, modified_at) values ?',
-    [[
-      [ path, name, modifiedAt ]
-    ]],
-    (error, result) => {
-      if (error) {
-        throw error;
-      }
-
-    }
-  );
-}
+const execute = (method, ...parameters) => {
+  if (commands[method]) {
+    return commands[method](connection, ...parameters);
+  }
+};
 
 export { init, destroy, isConnected };
-export { addPicture };
+export { execute };

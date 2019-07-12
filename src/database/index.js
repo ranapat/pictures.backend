@@ -29,11 +29,11 @@ const isConnected = () => {
   return active ? active.isConnected() : undefined;
 };
 
-const addPicture = (path, name, modifiedAt) => {
+const execute = (method, ...parameters) => {
   if (active) {
-    active.addPicture(path, name, modifiedAt);
+    return active.execute(method, ...parameters);
   }
 };
 
 export { init, destroy, isConnected };
-export { addPicture };
+export { execute };

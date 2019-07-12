@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { tf } from 'tasksf';
 
 import { normalize } from './normalize';
 import { iterate } from './iterate';
@@ -12,14 +13,22 @@ const init = (config, command, args, database, complete) => {
 
   const pictures = iterate(directories);
 
+  const sequence = tf.sequence(() => { complete() });
+
+  console.log(pictures)
+
   for (const picture of pictures) {
     const stats = fs.statSync(picture);
-    database.addPicture(
-      path.dirname(picture) + '/', path.basename(picture),
-      stats.mtime
+    sequence.push(
+      database.execute(
+        'addPicture',
+        path.dirname(picture) + '/', path.basename(picture),
+        stats.mtime
+      )
     );
   }
-//  complete();
+
+  sequence.run();
 };
 
 export { init };
