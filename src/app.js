@@ -16,8 +16,18 @@ const handleCommand = (command, cmd, args) => {
     database.init(config);
 
     scan.init(config, cmd, args, database, complete);
+  } else if (command === 'help') {
+    const helpFor = args.length > 0 ? args[0] : undefined;
+    if (helpFor === 'scan') {
+      console.log('custom help for scan...');
+    } else {
+      console.log('custom help for...', helpFor);
+    }
+    process.exit(0);
   } else {
     program.outputHelp();
+
+    process.exit(0);
   }
 };
 
