@@ -15,8 +15,6 @@ const init = (config, command, args, database, complete) => {
 
   const sequence = tf.sequence(() => { complete() });
 
-  console.log(pictures)
-
   for (const picture of pictures) {
     const stats = fs.statSync(picture);
     sequence.push(
