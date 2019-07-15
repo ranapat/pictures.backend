@@ -34,7 +34,7 @@
     "node-geocoder": "^3.22.0",
     "npm": "^6.10.1",
     "recursive-readdir-sync": "^1.0.6",
-    "tasksf": "^1.3.27"
+    "tasksf": "^1.3.28"
   },
   "private": false,
   "repository": {
