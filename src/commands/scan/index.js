@@ -72,7 +72,7 @@ const init = (config, command, args, database, complete) => {
 
   const pictures = iterate(directories);
 
-  updateLabel(`Checking files 0 out of ${pictures.length}`);
+  updateLabel(`Checking picture 0 out of ${pictures.length}`);
 
   const sequence = tf.sequence(() => {
     disposeRenderer();
@@ -81,7 +81,6 @@ const init = (config, command, args, database, complete) => {
   });
 
   let i = 0;
-  let size = 0;
 
   for (const picture of pictures) {
     const stats = fs.statSync(picture);
@@ -91,14 +90,12 @@ const init = (config, command, args, database, complete) => {
       stats.mtime
     );
     task._complete = () => {
-      updateProgress(++i / size);
-      updateLabel(`Checking files ${i} out of ${pictures.length}`);
+      updateProgress(++i / pictures.length);
+      updateLabel(`Checking picture ${i} out of ${pictures.length}`);
     };
 
     sequence.push(task);
   }
-
-  size = pictures.length;
 
   sequence.run();
 };
