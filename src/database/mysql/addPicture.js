@@ -1,5 +1,9 @@
 import { tf } from 'tasksf';
 
+const isSmaller = (dateA, dateB) => {
+  return Math.floor(dateA.getTime() / 1000) < Math.floor(dateB.getTime() / 1000);
+};
+
 const analyzePicture = tf.task(
   (complete, self) => {
     const chain = self.get(tf._CHAIN_);
@@ -15,7 +19,7 @@ const analyzePicture = tf.task(
         }
 
         if (result.length === 1) {
-          if (result[0].modified_at < parameters.modifiedAt) {
+          if (isSmaller(result[0].modified_at, parameters.modifiedAt)) {
             chain.attach('delete', true);
             chain.attach('insert', true);
           }

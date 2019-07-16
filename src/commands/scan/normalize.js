@@ -6,15 +6,25 @@ const normalize = (fromConfig, fromArguments, recursiveMode) => {
 
   for (const obj of fromConfig) {
     if (fs.existsSync(obj.path)) {
-      result.push({ path: `${path.resolve(obj.path)}/`, recursive: obj.recursive });
+      if (fs.lstatSync(obj.path).isDirectory()) {
+        result.push({ path: `${path.resolve(obj.path)}/`, recursive: obj.recursive });
+      } else {
+        result.push({ path: `${obj.path}`, file: true });
+      }
     }
   }
 
   for (const obj of fromArguments) {
     if (fs.existsSync(obj)) {
-      result.push({ path: `${path.resolve(obj)}/`, recursive: recursiveMode });
+      if (fs.lstatSync(obj).isDirectory()) {
+        result.push({ path: `${path.resolve(obj)}/`, recursive: recursiveMode });
+      } else {
+        result.push({ path: `${obj}`, file: true });
+      }
     }
   }
+
+  console.log(result)
 
   return result;
 };

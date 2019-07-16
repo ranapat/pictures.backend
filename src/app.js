@@ -3,6 +3,8 @@ import program from 'commander';
 
 import * as packageJson from '../package.json';
 import * as database from './database';
+
+import * as file from './commands/file';
 import * as scan from './commands/scan';
 import * as watch from './commands/watch';
 import * as identify from './commands/identify';
@@ -16,7 +18,11 @@ const complete = () => {
 };
 
 const handleCommand = (command, cmd, args) => {
-  if (command === 'watch') {
+  if (command === 'file') {
+    database.init(config);
+
+    file.init(config, cmd, args, database, complete);
+  } else if (command === 'watch') {
     database.init(config);
 
     watch.init(config, cmd, args, database, complete);
@@ -38,7 +44,9 @@ const handleCommand = (command, cmd, args) => {
     geo.init(config, cmd, args, database, complete);
   } else if (command === 'help') {
     const helpFor = args.length > 0 ? args[0] : undefined;
-    if (helpFor === 'watch') {
+    if (helpFor === 'file') {
+      console.log('custom help for file...');
+    } else if (helpFor === 'watch') {
       console.log('custom help for watch...');
     } else if (helpFor === 'scan') {
       console.log('custom help for scan...');
@@ -63,8 +71,10 @@ program
   .version(packageJson.version)
 
   .option('-r, --recursive', 'Recursive mode')
+  .option('-q, --quiet', 'Quiet mode')
+  .command('file [file]', 'Processes single pictures')
   .command('watch [folders...]', 'Watches folders for pictures')
-  .command('scan [folders...]', 'Scan folders for pictures')
+  .command('scan [files or folders...]', 'Scan files or folders for pictures')
   .command('identify [limit]', 'Identify pictures up to a limit')
   .command('metadata [limit]', 'Metadata discover pictures up to a limit')
   .command('geo [limit]', 'Reverse Geo Code pictures up to a limit')

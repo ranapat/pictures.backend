@@ -13,6 +13,8 @@ const iterate = (directories) => {
 
     if (obj.recursive) {
       files = recursiveReadSync(obj.path);
+    } else if (obj.file) {
+      files = [ obj.path ];
     } else {
       files = fs.readdirSync(obj.path);
       files.forEach((part, index) => {

@@ -74,19 +74,23 @@ const single = (picture, database) => {
 };
 
 const init = (config, command, args, database, complete) => {
+  const quiet = command.quiet === true;
   const directories = normalize(
     config.get('pictures.directories'),
     args, command.recursive === true
   );
 
-  clearScreen();
-
   const pictures = iterate(directories);
 
-  updateLabel(`Checking picture 0 out of ${pictures.length}`);
+  if (!quiet) {
+    clearScreen();
+    updateLabel(`Checking picture 0 out of ${pictures.length}`);
+  }
 
   const sequence = tf.sequence(() => {
-    disposeRenderer();
+    if (!quiet) {
+      disposeRenderer();
+    }
 
     complete();
   });
@@ -96,8 +100,10 @@ const init = (config, command, args, database, complete) => {
   for (const picture of pictures) {
     const task = single(picture, database);
     task._complete = () => {
-      updateProgress(++i / pictures.length);
-      updateLabel(`Checking picture ${i} out of ${pictures.length}`);
+      if (!quiet) {
+        updateProgress(++i / pictures.length);
+        updateLabel(`Checking picture ${i} out of ${pictures.length}`);
+      }
     };
 
     sequence.push(task);
