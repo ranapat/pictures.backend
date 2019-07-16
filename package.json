@@ -13,7 +13,8 @@
     "serve": "babel -w src -d bin | nodemon --watch bin",
     "compile": "babel src -d bin",
     "compileAndRun": "babel src -d bin > /dev/null 2>&1 && ./app",
-    "prepublishOnly": "babel src -d bin"
+    "prepublishOnly": "babel src -d bin",
+    "push": "git push origin && git push github"
   },
   "author": "ranapat <github@ranapat.org>",
   "license": "Unlicense",
