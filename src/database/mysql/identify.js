@@ -90,8 +90,8 @@ const updatePicture = tf.task(
 
     if (chain.get('update')) {
       connection.query(
-        'update files set identity = ? where file = ?',
-        [ id, JSON.stringify(data) ],
+        'update file_details set identity = ? where file = ?',
+        [ JSON.stringify(data), id ],
         (error, result) => {
           if (error) {
             //
