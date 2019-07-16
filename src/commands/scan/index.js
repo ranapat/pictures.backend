@@ -62,6 +62,17 @@ const disposeRenderer = () => {
   renderer.cursorShow();
 };
 
+const single = (picture, database) => {
+  const stats = fs.statSync(picture);
+  const task = database.execute(
+    'addPicture',
+    path.dirname(picture) + '/', path.basename(picture),
+    stats.mtime
+  );
+
+  return task;
+};
+
 const init = (config, command, args, database, complete) => {
   const directories = normalize(
     config.get('pictures.directories'),
@@ -83,12 +94,7 @@ const init = (config, command, args, database, complete) => {
   let i = 0;
 
   for (const picture of pictures) {
-    const stats = fs.statSync(picture);
-    const task = database.execute(
-      'addPicture',
-      path.dirname(picture) + '/', path.basename(picture),
-      stats.mtime
-    );
+    const task = single(picture, database);
     task._complete = () => {
       updateProgress(++i / pictures.length);
       updateLabel(`Checking picture ${i} out of ${pictures.length}`);
