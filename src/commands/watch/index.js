@@ -1,4 +1,5 @@
 import exitHook from 'exit-hook';
+import path from 'path';
 import watch from 'node-watch';
 import { tf } from 'tasksf';
 import { icons, escapes } from 'clicomp';
@@ -46,7 +47,7 @@ const watchSingle = (directory, recursive) => {
       modified.push(name);
     }
 
-    console.log(name)
+    console.log(path.dirname(name) + ' / ' + path.basename(name));
 
     updateLabel(`Pictures in queue ${modified.length + deleted.length}`);
   });
