@@ -3,15 +3,19 @@ import mysql from 'mysql';
 import { addPicture } from './addPicture';
 import { toIdentify } from './toIdentify';
 import { toMetadata } from './toMetadata';
+import { toGeo } from './toGeo';
 import { identify } from './identify';
 import { metadata } from './metadata';
+import { geo } from './geo';
 
 const commands = {
   'addPicture': addPicture,
   'toIdentify': toIdentify,
   'toMetadata': toMetadata,
+  'toGeo': toGeo,
   'identify': identify,
-  'metadata': metadata
+  'metadata': metadata,
+  'geo': geo
 };
 
 let connection;

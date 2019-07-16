@@ -3,7 +3,7 @@ create table files (
   `path` text not null,
   `name` text not null,
   `modified_at` timestamp not null,
-  unique key `full_path` (`path`(1024), `name`(255))
+  unique key `full_path` (`path`(255), `name`(255))
 ) Engine=innodb default charset utf8 collate utf8_unicode_ci;
 
 create table file_flags (
@@ -19,6 +19,7 @@ create table file_details (
   `file` bigint unsigned not null,
   `identity` text,
   `metadata` text,
+  `geo` text,
   key (`file`),
   foreign key (`file`) references `files`(`id`) on delete cascade
 ) Engine=innodb default charset utf8 collate utf8_unicode_ci;

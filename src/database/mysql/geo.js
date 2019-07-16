@@ -64,7 +64,7 @@ const insertPicture = tf.task(
       connection.query(
         'insert into file_details (file, identity, metadata, geo) values ?',
         [[
-          [ id, JSON.stringify(data), '', '' ]
+          [ id, '', '', JSON.stringify(data) ]
         ]],
         (error, result) => {
           if (error) {
@@ -90,7 +90,7 @@ const updatePicture = tf.task(
 
     if (chain.get('update')) {
       connection.query(
-        'update file_details set identity = ? where file = ?',
+        'update file_details set geo = ? where file = ?',
         [ JSON.stringify(data), id ],
         (error, result) => {
           if (error) {
@@ -115,7 +115,7 @@ const flagPicture = tf.task(
 
     if (chain.get('flag')) {
       connection.query(
-        'update file_flags set request_identify = 0 where file = ?',
+        'update file_flags set request_reverse_geo_code = 0 where file = ?',
         [ id ],
         (error, result) => {
           if (error) {
@@ -131,7 +131,7 @@ const flagPicture = tf.task(
   }, 0
 );
 
-const identify = (connection, id, data, modifiedAt) => {
+const geo = (connection, id, data, modifiedAt) => {
   return tf.task((complete, self) => {
     tf.sequence(() => { complete(); })
       .push(analyzePicture)
@@ -146,4 +146,4 @@ const identify = (connection, id, data, modifiedAt) => {
   }, 0);
 };
 
-export { identify };
+export { geo };

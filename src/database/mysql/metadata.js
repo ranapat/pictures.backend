@@ -62,7 +62,7 @@ const insertPicture = tf.task(
 
     if (chain.get('insert')) {
       connection.query(
-        'insert into file_details (file, identity, metadata) values ?',
+        'insert into file_details (file, identity, metadata, geo) values ?',
         [[
           [ id, '', JSON.stringify(data) ]
         ]],
