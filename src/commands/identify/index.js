@@ -95,7 +95,7 @@ const init = (config, command, args, database, complete) => {
           );
           task._complete = () => {
             updateProgress(++i / pictures.length);
-            updateLabel(`Checking picture ${i} out of ${pictures.length}`);
+            updateLabel(`Identify picture ${i} out of ${pictures.length}`);
           };
           sequence.unshift(task);
 
