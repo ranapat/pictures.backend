@@ -1,3 +1,4 @@
+import exitHook from 'exit-hook';
 import watch from 'node-watch';
 import { tf } from 'tasksf';
 import { icons, escapes } from 'clicomp';
@@ -58,6 +59,12 @@ const init = (config, command, args, database, complete) => {
   );
 
   clearScreen();
+
+
+  exitHook(() => {
+    renderer.cursorTo(0, 5);
+    complete();
+  });
 
   for (const directory of directories) {
     watchSingle(directory.path, directory.recursive);
