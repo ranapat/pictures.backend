@@ -2,12 +2,16 @@ import mysql from 'mysql';
 
 import { addPicture } from './addPicture';
 import { toIdentify } from './toIdentify';
+import { toMetadata } from './toMetadata';
 import { identify } from './identify';
+import { metadata } from './metadata';
 
 const commands = {
   'addPicture': addPicture,
   'toIdentify': toIdentify,
-  'identify': identify
+  'toMetadata': toMetadata,
+  'identify': identify,
+  'metadata': metadata
 };
 
 let connection;
