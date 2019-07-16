@@ -85,19 +85,20 @@ const init = (config, command, args, database, complete) => {
     for (const picture of pictures) {
       sequence.push(tf.task((complete, self) => {
         im.readMetadata(picture.path + picture.name, (error, data) => {
-          if (error) {
-            //
-          }
-
-          const task = database.execute(
-            'metadata',
-            picture.id, data
-          );
-          task._complete = () => {
+          if (!error) {
+            const task = database.execute(
+              'metadata',
+              picture.id, data
+            );
+            task._complete = () => {
+              updateProgress(++i / pictures.length);
+              updateLabel(`Metadata discover picture ${i} out of ${pictures.length}`);
+            };
+            sequence.unshift(task);
+          } else {
             updateProgress(++i / pictures.length);
             updateLabel(`Metadata discover picture ${i} out of ${pictures.length}`);
-          };
-          sequence.unshift(task);
+          }
 
           complete();
         });
