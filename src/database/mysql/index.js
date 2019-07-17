@@ -4,6 +4,7 @@ import { addPicture } from './addPicture';
 import { toIdentify } from './toIdentify';
 import { toMetadata } from './toMetadata';
 import { toGeo } from './toGeo';
+import { getByFullPath } from './getByFullPath';
 import { identify } from './identify';
 import { metadata } from './metadata';
 import { geo } from './geo';
@@ -13,6 +14,7 @@ const commands = {
   'toIdentify': toIdentify,
   'toMetadata': toMetadata,
   'toGeo': toGeo,
+  'getByFullPath': getByFullPath,
   'identify': identify,
   'metadata': metadata,
   'geo': geo
