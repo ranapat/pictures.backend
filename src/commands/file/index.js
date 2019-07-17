@@ -1,53 +1,26 @@
 import fs from 'fs';
 import path from 'path';
-import { tf } from 'tasksf';
+import { spawn } from 'child_process';
 
 const init = (config, command, args, database, complete) => {
   const picture = args.length > 0 ? args[0] : undefined;
 
-  if (picture && fs.existsSync(picture)) {
-    console.log(path.dirname(picture) + ' / ' + path.basename(picture))
+  if (picture && fs.existsSync(picture) && fs.lstatSync(picture).isFile()) {
+    spawn('./app', [ 'scan', picture, '-q' ]).on('exit', (code) => {
+      if (code !== 0) { complete(); return; }
+      spawn('./app', [ 'identify', picture, '-q' ]).on('exit', (code) => {
+        if (code !== 0) { complete(); return; }
+        spawn('./app', [ 'metadata', picture, '-q' ]).on('exit', (code) => {
+          if (code !== 0) { complete(); return; }
+          spawn('./app', [ 'geo', picture, '-q' ]).on('exit', (code) => {
+            complete();
+          });
+        });
+      });
+    });
   } else {
     complete();
   }
-
-  /*
-  const directories = normalize(
-    config.get('pictures.directories'),
-    args, command.recursive === true
-  );
-
-  clearScreen();
-
-  const pictures = iterate(directories);
-
-  updateLabel(`Checking picture 0 out of ${pictures.length}`);
-
-  const sequence = tf.sequence(() => {
-    disposeRenderer();
-
-    complete();
-  });
-
-  let i = 0;
-
-  for (const picture of pictures) {
-    const stats = fs.statSync(picture);
-    const task = database.execute(
-      'addPicture',
-      path.dirname(picture) + '/', path.basename(picture),
-      stats.mtime
-    );
-    task._complete = () => {
-      updateProgress(++i / pictures.length);
-      updateLabel(`Checking picture ${i} out of ${pictures.length}`);
-    };
-
-    sequence.push(task);
-  }
-
-  sequence.run();
-  */
 };
 
 export { init };
