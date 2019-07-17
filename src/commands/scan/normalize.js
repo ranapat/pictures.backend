@@ -4,16 +4,6 @@ import path from 'path';
 const normalize = (fromConfig, fromArguments, recursiveMode) => {
   const result = [];
 
-  for (const obj of fromConfig) {
-    if (fs.existsSync(obj.path)) {
-      if (fs.lstatSync(obj.path).isDirectory()) {
-        result.push({ path: `${path.resolve(obj.path)}/`, recursive: obj.recursive });
-      } else {
-        result.push({ path: `${obj.path}`, file: true });
-      }
-    }
-  }
-
   for (const obj of fromArguments) {
     if (fs.existsSync(obj)) {
       if (fs.lstatSync(obj).isDirectory()) {
@@ -24,7 +14,17 @@ const normalize = (fromConfig, fromArguments, recursiveMode) => {
     }
   }
 
-  console.log(result)
+  if (result.length === 0) {
+    for (const obj of fromConfig) {
+      if (fs.existsSync(obj.path)) {
+        if (fs.lstatSync(obj.path).isDirectory()) {
+          result.push({ path: `${path.resolve(obj.path)}/`, recursive: obj.recursive });
+        } else {
+          result.push({ path: `${obj.path}`, file: true });
+        }
+      }
+    }
+  }
 
   return result;
 };
