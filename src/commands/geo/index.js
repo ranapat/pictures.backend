@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import im from 'imagemagick';
 import NodeGeocoder from 'node-geocoder';
 
@@ -84,7 +85,7 @@ const init = (config, command, args, database, complete) => {
   if (args.length > 0) {
     const first = args[0];
     if (fs.existsSync(first) && fs.lstatSync(first).isFile()) {
-      file = first;
+      file = path.resolve(first);
     } else if (!isNaN(first)) {
       limit = parseInt(first);
     }

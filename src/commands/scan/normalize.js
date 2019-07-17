@@ -9,7 +9,7 @@ const normalize = (fromConfig, fromArguments, recursiveMode) => {
       if (fs.lstatSync(obj).isDirectory()) {
         result.push({ path: `${path.resolve(obj)}/`, recursive: recursiveMode });
       } else {
-        result.push({ path: `${obj}`, file: true });
+        result.push({ path: `${path.resolve(obj)}`, file: true });
       }
     }
   }
@@ -20,7 +20,7 @@ const normalize = (fromConfig, fromArguments, recursiveMode) => {
         if (fs.lstatSync(obj.path).isDirectory()) {
           result.push({ path: `${path.resolve(obj.path)}/`, recursive: obj.recursive });
         } else {
-          result.push({ path: `${obj.path}`, file: true });
+          result.push({ path: `${path.resolve(obj.path)}`, file: true });
         }
       }
     }
