@@ -75,9 +75,9 @@ program
   .command('file [file]', 'Processes single pictures')
   .command('watch [folders...]', 'Watches folders for pictures')
   .command('scan [files or folders...]', 'Scan files or folders for pictures')
-  .command('identify [limit]', 'Identify pictures up to a limit')
-  .command('metadata [limit]', 'Metadata discover pictures up to a limit')
-  .command('geo [limit]', 'Reverse Geo Code pictures up to a limit')
+  .command('identify [limit or file]', 'Identify pictures up to a limit or a specific file')
+  .command('metadata [limit or file]', 'Metadata discover pictures up to a limit or a specific file')
+  .command('geo [limit or file]', 'Reverse Geo Code pictures up to a limit or a specific file')
 
   .action((command, ...args) => {
     const cmd = args[args.length - 1];

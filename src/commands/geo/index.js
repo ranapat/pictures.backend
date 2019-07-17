@@ -1,3 +1,4 @@
+import fs from 'fs';
 import im from 'imagemagick';
 import NodeGeocoder from 'node-geocoder';
 
@@ -75,27 +76,54 @@ const disposeRenderer = () => {
 };
 
 const init = (config, command, args, database, complete) => {
-  clearScreen();
+  const quiet = command.quiet === true;
 
-  const limit = args.length > 0 ? parseInt(args[0]) : undefined;
+  let limit;
+  let file;
 
-  const toGeo = database.execute(
-    'toGeo',
-    limit
-  );
+  if (args.length > 0) {
+    const first = args[0];
+    if (fs.existsSync(first) && fs.lstatSync(first).isFile()) {
+      file = first;
+    } else if (!isNaN(first)) {
+      limit = parseInt(first);
+    }
+  }
+
+  if (!quiet) {
+    clearScreen();
+  }
+
+  let toGeo;
+
+  if (file) {
+    toGeo = database.execute(
+      'getByFullPath',
+      file
+    );
+  } else {
+    toGeo = database.execute(
+      'toGeo',
+      limit
+    );
+  }
 
   toGeo._complete = (self) => {
     const pictures = self.get('result');
 
     const sequence = tf.sequence(() => {
-      disposeRenderer();
+      if (!quiet) {
+        disposeRenderer();
+      }
 
       complete();
     });
 
     let i = 0;
 
-    updateLabel(`Reverse Geo Code picture 0 out of ${pictures.length}`);
+    if (!quiet) {
+      updateLabel(`Reverse Geo Code picture 0 out of ${pictures.length}`);
+    }
 
     for (const picture of pictures) {
       sequence.push(tf.task((complete, self) => {
@@ -117,8 +145,10 @@ const init = (config, command, args, database, complete) => {
                   picture.id, data
                 );
                 task._complete = () => {
-                  updateProgress(++i / pictures.length);
-                  updateLabel(`Reverse Geo Code picture ${i} out of ${pictures.length}`);
+                  if (!quiet) {
+                    updateProgress(++i / pictures.length);
+                    updateLabel(`Reverse Geo Code picture ${i} out of ${pictures.length}`);
+                  }
                 };
                 sequence.unshift(task);
               }
