@@ -1,6 +1,6 @@
 import { tf } from 'tasksf';
 
-const toGeo = (connection, limit, modifiedAt) => {
+const toGeo = (connection, limit) => {
   return tf.task((complete, self) => {
     const query = limit ? 'select f.* from files f left join file_flags ff on f.id=ff.file where request_reverse_geo_code = 1 limit ?' : 'select f.* from files f left join file_flags ff on f.id=ff.file where request_reverse_geo_code = 1';
     const parameters = limit ? [ limit ] : [];

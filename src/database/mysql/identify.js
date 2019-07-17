@@ -131,7 +131,7 @@ const flagPicture = tf.task(
   }, 0
 );
 
-const identify = (connection, id, data, modifiedAt) => {
+const identify = (connection, id, data) => {
   return tf.task((complete, self) => {
     tf.sequence(() => { complete(); })
       .push(analyzePicture)

@@ -1,6 +1,6 @@
 import { tf } from 'tasksf';
 
-const toIdentify = (connection, limit, modifiedAt) => {
+const toIdentify = (connection, limit) => {
   return tf.task((complete, self) => {
     const query = limit ? 'select f.* from files f left join file_flags ff on f.id=ff.file where request_identify = 1 limit ?' : 'select f.* from files f left join file_flags ff on f.id=ff.file where request_identify = 1';
     const parameters = limit ? [ limit ] : [];

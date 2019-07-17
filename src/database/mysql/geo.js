@@ -131,7 +131,7 @@ const flagPicture = tf.task(
   }, 0
 );
 
-const geo = (connection, id, data, modifiedAt) => {
+const geo = (connection, id, data) => {
   return tf.task((complete, self) => {
     tf.sequence(() => { complete(); })
       .push(analyzePicture)
