@@ -77,8 +77,22 @@ const handleModified = () => {
 };
 
 const handleDeleted = () => {
-  updateLabel(`Files to process ${modified.length}, files to delete ${deleted.length}, doing nothing...`);
+  sequence.push(tf.task((complete, self) => {
+    if (deleted.length > 0) {
+      const picture = deleted.pop();
 
+      updateLabel(`Files to process ${modified.length}, files to delete ${deleted.length}, updating...`);
+
+      spawn('./app', [ 'remove', picture ]).on('exit', (code) => {
+        updateLabel(`Files to process ${modified.length}, files to delete ${deleted.length}, doing nothing...`);
+        complete();
+      });
+    }
+  }, 0));
+
+  if (!sequence.running) {
+    sequence.run();
+  }
 };
 
 const init = (config, command, args, database, complete) => {

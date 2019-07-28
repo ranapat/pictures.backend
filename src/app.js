@@ -10,6 +10,7 @@ import * as watch from './commands/watch';
 import * as identify from './commands/identify';
 import * as metadata from './commands/metadata';
 import * as geo from './commands/geo';
+import * as remove from './commands/remove';
 
 const complete = () => {
   database.destroy();
@@ -42,6 +43,10 @@ const handleCommand = (command, cmd, args) => {
     database.init(config);
 
     geo.init(config, cmd, args, database, complete);
+  } else if (command === 'remove') {
+    database.init(config);
+
+    remove.init(config, cmd, args, database, complete);
   } else if (command === 'help') {
     const helpFor = args.length > 0 ? args[0] : undefined;
     if (helpFor === 'file') {
@@ -56,6 +61,8 @@ const handleCommand = (command, cmd, args) => {
       console.log('custom help for metadata...');
     } else if (helpFor === 'geo') {
       console.log('custom help for reverse geo code...');
+    } else if (helpFor === 'remove') {
+      console.log('custom help for remove...');
     } else {
       console.log('custom help for...', helpFor);
     }
@@ -78,6 +85,7 @@ program
   .command('identify [limit or file]', 'Identify pictures up to a limit or a specific file')
   .command('metadata [limit or file]', 'Metadata discover pictures up to a limit or a specific file')
   .command('geo [limit or file]', 'Reverse Geo Code pictures up to a limit or a specific file')
+  .command('remove [file]', 'Remove single picture from the database')
 
   .action((command, ...args) => {
     const cmd = args[args.length - 1];

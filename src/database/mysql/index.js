@@ -8,6 +8,7 @@ import { getByFullPath } from './getByFullPath';
 import { identify } from './identify';
 import { metadata } from './metadata';
 import { geo } from './geo';
+import { remove } from './remove';
 
 const commands = {
   'addPicture': addPicture,
@@ -17,7 +18,8 @@ const commands = {
   'getByFullPath': getByFullPath,
   'identify': identify,
   'metadata': metadata,
-  'geo': geo
+  'geo': geo,
+  'remove': remove
 };
 
 let connection;
