@@ -92,9 +92,9 @@ const flagPicture = tf.task(
 
     if (chain.get('insert')) {
       connection.query(
-        'insert into file_flags (file, request_identify, request_metadata, request_reverse_geo_code) values ?',
+        'insert into file_flags (file, request_identify, request_metadata, request_reverse_geo_code, request_tag) values ?',
         [[
-          [ chain.get('fileId'), true, true, true ]
+          [ chain.get('fileId'), true, true, true, true ]
         ]],
         (error, result) => {
           if (error) {

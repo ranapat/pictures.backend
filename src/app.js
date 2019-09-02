@@ -4,12 +4,15 @@ import program from 'commander';
 import * as packageJson from '../package.json';
 import * as database from './database';
 
+import * as tags from './tags';
+
 import * as file from './commands/file';
 import * as scan from './commands/scan';
 import * as watch from './commands/watch';
 import * as identify from './commands/identify';
 import * as metadata from './commands/metadata';
 import * as geo from './commands/geo';
+import * as tag from './commands/tag';
 import * as remove from './commands/remove';
 
 const complete = () => {
@@ -43,6 +46,10 @@ const handleCommand = (command, cmd, args) => {
     database.init(config);
 
     geo.init(config, cmd, args, database, complete);
+  } else if (command === 'tag') {
+    database.init(config);
+
+    tag.init(config, cmd, args, database, complete);
   } else if (command === 'remove') {
     database.init(config);
 
@@ -61,6 +68,8 @@ const handleCommand = (command, cmd, args) => {
       console.log('custom help for metadata...');
     } else if (helpFor === 'geo') {
       console.log('custom help for reverse geo code...');
+    } else if (helpFor === 'tag') {
+      console.log('custom help for reverse tag...');
     } else if (helpFor === 'remove') {
       console.log('custom help for remove...');
     } else {
@@ -85,6 +94,7 @@ program
   .command('identify [limit or file]', 'Identify pictures up to a limit or a specific file')
   .command('metadata [limit or file]', 'Metadata discover pictures up to a limit or a specific file')
   .command('geo [limit or file]', 'Reverse Geo Code pictures up to a limit or a specific file')
+  .command('tag [limit or file]', 'Tag pictures up to a limit or specific file')
   .command('remove [file]', 'Remove single picture from the database')
 
   .action((command, ...args) => {

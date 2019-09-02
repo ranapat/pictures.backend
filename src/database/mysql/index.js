@@ -4,10 +4,12 @@ import { addPicture } from './addPicture';
 import { toIdentify } from './toIdentify';
 import { toMetadata } from './toMetadata';
 import { toGeo } from './toGeo';
+import { toTag } from './toTag';
 import { getByFullPath } from './getByFullPath';
 import { identify } from './identify';
 import { metadata } from './metadata';
 import { geo } from './geo';
+import { tags } from './tags';
 import { remove } from './remove';
 
 const commands = {
@@ -15,10 +17,12 @@ const commands = {
   'toIdentify': toIdentify,
   'toMetadata': toMetadata,
   'toGeo': toGeo,
+  'toTag': toTag,
   'getByFullPath': getByFullPath,
   'identify': identify,
   'metadata': metadata,
   'geo': geo,
+  'tags': tags,
   'remove': remove
 };
 

@@ -13,7 +13,10 @@ const init = (config, command, args, database, complete) => {
         spawn('./app', [ 'metadata', picture, '-q' ]).on('exit', (code) => {
           if (code !== 0) { complete(); return; }
           spawn('./app', [ 'geo', picture, '-q' ]).on('exit', (code) => {
-            complete();
+            if (code !== 0) { complete(); return; }
+            spawn('./app', [ 'tag', picture, '-q' ]).on('exit', (code) => {
+              complete();
+            });
           });
         });
       });
