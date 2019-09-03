@@ -120,16 +120,19 @@ const init = (config, command, args, database, complete) => {
 
         let data = [];
         const notNormalized = [
-          geo.country, geo.countryCode, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
+          geo.country, geo.countryCode, geo.state, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
         ];
-        for (const toNormalize of notNormalized) {
-          const parts = toNormalize.split(/[ ,\.'"]/);
 
-          for (const part of parts) {
-            if (part.trim()) {
-              data.push(
-                { type: tags.types.location, name: part.trim() }
-              );
+        for (const toNormalize of notNormalized) {
+          if (toNormalize) {
+            const parts = toNormalize.split(/[ ,\.'"]/);
+
+            for (const part of parts) {
+              if (part.trim()) {
+                data.push(
+                  { type: tags.types.location, name: part.trim() }
+                );
+              }
             }
           }
         }
