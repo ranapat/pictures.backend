@@ -3,6 +3,7 @@
 ### Important
 
 - [ ] Search output format
+- [ ] Search or / and
 
 ### General:
 
