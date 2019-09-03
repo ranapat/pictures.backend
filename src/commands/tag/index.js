@@ -114,43 +114,48 @@ const init = (config, command, args, database, complete) => {
 
     for (const picture of pictures) {
       sequence.push(tf.task((complete, self) => {
-        const identity = JSON.parse(picture.identity);
-        const metadata = JSON.parse(picture.metadata);
-        const geo = JSON.parse(picture.geo)[0];
+        try {
+          const identity = JSON.parse(picture.identity);
+          const metadata = JSON.parse(picture.metadata);
+          const geo = JSON.parse(picture.geo)[0];
 
-        let data = [];
-        const notNormalized = [
-          geo.country, geo.countryCode, geo.state, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
-        ];
+          let data = [];
+          const notNormalized = [
+            geo.country, geo.countryCode, geo.state, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
+          ];
 
-        for (const toNormalize of notNormalized) {
-          if (toNormalize) {
-            const parts = toNormalize.split(/[ ,\.'"]/);
+          for (const toNormalize of notNormalized) {
+            if (toNormalize) {
+              const parts = toNormalize.split(/[ ,\.'"]/);
 
-            for (const part of parts) {
-              if (part.trim()) {
-                data.push(
-                  { type: tags.types.location, name: part.trim() }
-                );
+              for (const part of parts) {
+                if (part.trim()) {
+                  data.push(
+                    { type: tags.types.location, name: part.trim() }
+                  );
+                }
               }
             }
           }
+
+          const task = database.execute(
+            'tags',
+            picture.id, data
+          );
+          task._complete = () => {
+            if (!quiet) {
+              updateProgress(++i / pictures.length);
+              updateLabel(`Tag picture ${i} out of ${pictures.length}`);
+            }
+
+          };
+          sequence.unshift(task);
+          complete();
+
+        } catch (e) {
+          complete();
+          return;
         }
-
-        const task = database.execute(
-          'tags',
-          picture.id, data
-        );
-        task._complete = () => {
-          if (!quiet) {
-            updateProgress(++i / pictures.length);
-            updateLabel(`Tag picture ${i} out of ${pictures.length}`);
-          }
-
-        };
-        sequence.unshift(task);
-        complete();
-
       }, 0));
     }
 
