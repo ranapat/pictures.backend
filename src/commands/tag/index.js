@@ -126,7 +126,7 @@ const init = (config, command, args, database, complete) => {
 
           for (const toNormalize of notNormalized) {
             if (toNormalize) {
-              const parts = toNormalize.split(/[ ,\.'"]/);
+              const parts = toNormalize.split(/[ ,\.'"\-]/);
 
               for (const part of parts) {
                 if (part.trim()) {
