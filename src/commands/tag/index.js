@@ -121,7 +121,7 @@ const init = (config, command, args, database, complete) => {
 
           let data = [];
           const notNormalized = [
-            geo.country, geo.countryCode, geo.state, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
+            geo.country, geo.countryCode, geo.state, geo.neighbourhood, geo.city, geo.zipcode, geo.streetName, geo.formattedAddress
           ];
 
           for (const toNormalize of notNormalized) {

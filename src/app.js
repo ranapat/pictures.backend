@@ -94,8 +94,10 @@ program
   .version(packageJson.version)
 
   .option('-r, --recursive', 'Recursive mode')
+  .option('-p, --page <page>', 'Page number')
+  .option('-l, --limit <limit>', 'Limit for page')
   .option('-q, --quiet', 'Quiet mode')
-  .command('search [free text...]', 'Search for pictures')
+  .command('search [search...]', 'Search for pictures')
   .command('file [file]', 'Processes single pictures')
   .command('watch [folders...]', 'Watches folders for pictures')
   .command('scan [files or folders...]', 'Scan files or folders for pictures')
