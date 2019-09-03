@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 
+import { search } from './search';
 import { addPicture } from './addPicture';
 import { toIdentify } from './toIdentify';
 import { toMetadata } from './toMetadata';
@@ -13,6 +14,7 @@ import { tags } from './tags';
 import { remove } from './remove';
 
 const commands = {
+  'search': search,
   'addPicture': addPicture,
   'toIdentify': toIdentify,
   'toMetadata': toMetadata,

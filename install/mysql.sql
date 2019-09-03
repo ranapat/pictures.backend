@@ -41,17 +41,3 @@ create table file_tags (
   foreign key (`file`) references `files`(`id`) on delete cascade,
   foreign key (`tag`) references `tags`(`id`) on delete cascade
 ) Engine=innodb default charset utf8 collate utf8_unicode_ci;
-
-select count(t.id) from tags t left join file_tags ft on t.id=ft.tag where t.name in ('a', 'b', 'c') and ft.file=2205;
-
-select
- f.id, f.path, f.name,
- (
-  select count(tt.id) from tags tt left join file_tags ftt on tt.id=ftt.tag where tt.name in ('a', 'b', 'c') and ftt.file=f.id
- ) as matches
-from tags t
- left join file_tags ft on t.id=ft.tag
- left join files f on f.id=ft.file
-where t.name in ('a', 'b', 'c')
-group by f.id
-order by matches desc;

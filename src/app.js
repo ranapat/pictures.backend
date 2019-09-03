@@ -6,6 +6,7 @@ import * as database from './database';
 
 import * as tags from './tags';
 
+import * as search from './commands/search';
 import * as file from './commands/file';
 import * as scan from './commands/scan';
 import * as watch from './commands/watch';
@@ -22,7 +23,11 @@ const complete = () => {
 };
 
 const handleCommand = (command, cmd, args) => {
-  if (command === 'file') {
+  if (command === 'search') {
+    database.init(config);
+
+    search.init(config, cmd, args, database, complete);
+  } else if (command === 'file') {
     database.init(config);
 
     file.init(config, cmd, args, database, complete);
@@ -56,7 +61,9 @@ const handleCommand = (command, cmd, args) => {
     remove.init(config, cmd, args, database, complete);
   } else if (command === 'help') {
     const helpFor = args.length > 0 ? args[0] : undefined;
-    if (helpFor === 'file') {
+    if (helpFor === 'search') {
+      console.log('custom help for search...');
+    } else if (helpFor === 'file') {
       console.log('custom help for file...');
     } else if (helpFor === 'watch') {
       console.log('custom help for watch...');
@@ -88,6 +95,7 @@ program
 
   .option('-r, --recursive', 'Recursive mode')
   .option('-q, --quiet', 'Quiet mode')
+  .command('search [free text...]', 'Search for pictures')
   .command('file [file]', 'Processes single pictures')
   .command('watch [folders...]', 'Watches folders for pictures')
   .command('scan [files or folders...]', 'Scan files or folders for pictures')

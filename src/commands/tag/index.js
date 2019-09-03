@@ -12,20 +12,6 @@ let workInProgress;
 let label;
 let progress;
 
-const toDegrees = raw => {
-  if (!raw) {
-    return;
-  }
-
-  const result = [];
-  const lat = raw.trim().split(',');
-  for (const latPart of lat) {
-    const sections = latPart.trim().split('/');
-    result.push(sections[0], sections[1]);
-  }
-  return result[0] / result[1] + (result[2] / result[3]) / 60 + (result[4] / result[5]) / 3600;
-};
-
 const clearScreen = () => {
   renderer = Renderer.instance;
 
