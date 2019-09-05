@@ -19,5 +19,11 @@
     "username": "root",
     "password": "root",
     "database": "pictures_backend"
+  },
+  "api": {
+    "port": "3000",
+    "endpoints": {
+      "search": "/search"
+    }
   }
 }
