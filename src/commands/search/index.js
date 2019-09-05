@@ -1,5 +1,7 @@
 import { tf } from 'tasksf';
 
+//import im from 'imagemagick';
+
 const defaultPage = 0;
 const defaultLimit = 10;
 const defaultConcat = 'and';
@@ -31,6 +33,26 @@ const init = (config, command, args, database, complete) => {
           response.push({
             'file': item.path + item.name
           });
+
+          /*
+          im.resize({
+            srcPath: item.path + item.name,
+            //srcData: null,
+            //srcFormat: null,
+            dstPath: '/tmp/' + item.name,
+            quality: 0.8,
+            //format: 'jpg',
+            progressive: false,
+            width: 320,
+            height: 200,
+            strip: true,
+            filter: 'Lagrange',
+            sharpening: 0.2,
+            //customArgs: []
+          }, (err, stdout, stderr) => {
+            console.log(err, stdout, stderr)
+          });
+          */
         }
 
         console.log(JSON.stringify(response));
