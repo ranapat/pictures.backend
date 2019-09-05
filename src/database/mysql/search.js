@@ -55,6 +55,7 @@ const getPictures = tf.task(
     const connection = chain.get('connection')
     const data = chain.get('data')
     const query = chain.get('query');
+    const response = chain.get('response');
 
     let partial = [];
     for (const item of data) {
@@ -69,7 +70,8 @@ const getPictures = tf.task(
           //
         }
 
-        console.log(error, result)
+        response.attach('result', result);
+        response.attach('error', error);
 
         complete();
       }
@@ -86,6 +88,7 @@ const search = (connection, page, limit, data) => {
       .attach('page', page)
       .attach('limit', limit)
       .attach('data', data)
+      .attach('response', self)
       .run();
   }, 0);
 };

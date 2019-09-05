@@ -20,7 +20,22 @@ const init = (config, command, args, database, complete) => {
       args
     );
     task._complete = () => {
-      //
+      const result = task.get('result');
+      const error = task.get('error');
+
+      if (error) {
+        console.log(result, error);
+      } else {
+        let response = [];
+        for (const item of result) {
+          response.push({
+            'file': item.path + item.name
+          });
+        }
+
+        console.log(JSON.stringify(response));
+      }
+
     };
     sequence.unshift(task);
 
